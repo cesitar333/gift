@@ -37,32 +37,12 @@ body{
     display:none;
 }
 
-/* tronco realista */
+/* árbol SVG */
 #tree{
     position:absolute;
     bottom:0;
-    left:70%;
-    width:40px;
-    height:0;
-    background:linear-gradient(to right, #5a3e2b, #8B5A2B, #5a3e2b);
-    border-radius:20px;
-    transition:2s;
-}
-
-/* textura del tronco */
-#tree::after{
-    content:"";
-    position:absolute;
-    width:100%;
-    height:100%;
-    background:repeating-linear-gradient(
-        90deg,
-        rgba(0,0,0,0.1),
-        rgba(0,0,0,0.1) 2px,
-        transparent 2px,
-        transparent 6px
-    );
-    border-radius:20px;
+    left:65%;
+    width:250px;
 }
 
 /* flores */
@@ -97,8 +77,25 @@ body{
 <!-- escena -->
 <div id="scene">
 
-<div id="tree"></div>
+<!-- árbol REAL -->
+<svg id="tree" viewBox="0 0 200 300">
 
+<!-- tronco -->
+<path d="M100 300 
+         C90 250, 90 200, 100 150 
+         C110 200, 110 250, 100 300" 
+      fill="#8B5A2B"/>
+
+<!-- ramas -->
+<path d="M100 160 C130 140, 150 120, 160 100" stroke="#8B5A2B" stroke-width="6" fill="none"/>
+<path d="M100 170 C70 140, 50 120, 40 100" stroke="#8B5A2B" stroke-width="6" fill="none"/>
+<path d="M100 130 C120 110, 130 90, 135 70" stroke="#8B5A2B" stroke-width="5" fill="none"/>
+<path d="M100 140 C80 110, 70 90, 65 70" stroke="#8B5A2B" stroke-width="5" fill="none"/>
+<path d="M100 110 C100 80, 105 60, 110 40" stroke="#8B5A2B" stroke-width="5" fill="none"/>
+
+</svg>
+
+<!-- texto -->
 <div id="text">
 Laura eres el amor de mi vida 💛<br><br>
 El 20 de Febrero de 2025 me hiciste el chico más feliz del mundo.
@@ -112,21 +109,16 @@ function start(){
     document.getElementById("start").style.display="none";
     document.getElementById("scene").style.display="block";
 
-    let tree = document.getElementById("tree");
-
-    // crecer tronco
-    tree.style.height="250px";
-
-    setTimeout(createHeart,2500);
+    setTimeout(createHeart,2000);
 
     setTimeout(()=>{
         document.getElementById("text").style.opacity=1;
-    },4500);
+    },4000);
 }
 
-/* corazón relleno PERFECTO */
+/* corazón de flores */
 function createHeart(){
-    let centerX = window.innerWidth*0.7;
+    let centerX = window.innerWidth*0.65;
     let centerY = window.innerHeight/2 - 50;
 
     for(let i=0;i<1200;i++){
