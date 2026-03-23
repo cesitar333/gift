@@ -2,112 +2,159 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Para Laura</title>
+<title>Para Laura 💛</title>
+
 <style>
 body{
     margin:0;
-    background:black;
+    background:#f5efe6;
     overflow:hidden;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-    color:white;
     font-family:Arial;
-    flex-direction:column;
-}
-
-#tree{
-    font-size:20px;
-    line-height:20px;
-    white-space:pre;
-    color:#8B5A2B;
-    margin-bottom:20px;
-}
-
-#message{
-    font-size:35px;
-    opacity:0;
-    transition:2s;
     text-align:center;
 }
 
-button{
-    padding:15px 30px;
-    font-size:20px;
-    background:yellow;
-    border:none;
-    cursor:pointer;
-    border-radius:10px;
-    margin-top:20px;
-}
-.flower{
+/* inicio */
+#start{
     position:absolute;
-    color:yellow;
-    font-size:20px;
-    animation: fall 5s linear infinite;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    cursor:pointer;
 }
 
-@keyframes fall{
-    0%{transform:translateY(-100px);}
-    100%{transform:translateY(100vh);}
+#start img{
+    width:100px;
+}
+
+#line{
+    border-bottom:2px solid black;
+    width:200px;
+    margin:auto;
+}
+
+/* árbol */
+#tree{
+    position:absolute;
+    bottom:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:20px;
+    height:0;
+    background:#8B5A2B;
+    transition:3s;
+}
+
+/* ramas */
+.branch{
+    position:absolute;
+    width:80px;
+    height:4px;
+    background:#8B5A2B;
+    transform-origin:left;
+}
+
+/* flores */
+.flower{
+    position:absolute;
+    font-size:18px;
+    opacity:0;
+    animation: appear 1s forwards;
+}
+
+@keyframes appear{
+    to{opacity:1;}
+}
+
+/* mensaje */
+#message{
+    position:absolute;
+    top:20%;
+    width:100%;
+    font-size:28px;
+    opacity:0;
+    transition:2s;
+    padding:20px;
 }
 </style>
 </head>
+
 <body>
 
+<!-- pantalla inicio -->
+<div id="start" onclick="start()">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Sunflower_sky_backdrop.jpg/120px-Sunflower_sky_backdrop.jpg">
+    <div>Flores Para Ti</div>
+    <div id="line"></div>
+</div>
+
+<!-- árbol -->
 <div id="tree"></div>
-<button onclick="growTree()">Ábreme</button>
-<div id="message">Laura, eres el amor de mi vida 🌼</div>
+
+<!-- mensaje -->
+<div id="message">
+Que el 20 de Febrero de 2025 me hiciste el chico más feliz del mundo,<br><br>
+Laura eres el amor de mi vida 💛
+</div>
+
+<!-- música -->
+<audio id="music" src="https://www2.cs.uic.edu/~i101/SoundFiles/StarWars60.wav"></audio>
 
 <script>
-let treeStages = [
-`   |
-   |`,
-`   |
-  /|
-   |`,
-`   |
-  /|\\
-   |`,
-`   /\\
-  /  \\
-   ||`,
-`   /\\
-  /**\\
-   ||`
-];
 
-let i = 0;
+function start(){
+    document.getElementById("start").style.display="none";
 
-function growTree(){
-    let interval = setInterval(()=>{
-        if(i < treeStages.length){
-            document.getElementById("tree").innerText = treeStages[i];
-            i++;
-        } else {
-            clearInterval(interval);
-            showFlowers();
-            document.getElementById("message").style.opacity = 1;
-        }
-    },800);
-}
+    let tree = document.getElementById("tree");
 
-function createFlower(){
-    const flower = document.createElement("div");
-    flower.classList.add("flower");
-    flower.innerHTML = "🌼";
-    flower.style.left = Math.random()*100 + "vw";
-    document.body.appendChild(flower);
+    // crecer tronco
+    tree.style.height="200px";
 
     setTimeout(()=>{
-        flower.remove();
-    },5000);
+        createBranches();
+    },2000);
+
+    setTimeout(()=>{
+        createHeartFlowers();
+    },4000);
+
+    setTimeout(()=>{
+        document.getElementById("message").style.opacity=1;
+        document.getElementById("music").play();
+    },6000);
 }
 
-function showFlowers(){
-    setInterval(createFlower,300);
+/* ramas */
+function createBranches(){
+    for(let i=0;i<6;i++){
+        let b=document.createElement("div");
+        b.className="branch";
+        b.style.left="50%";
+        b.style.bottom=(150 - i*25)+"px";
+        b.style.transform="rotate("+(i%2==0?30:-30)+"deg)";
+        document.body.appendChild(b);
+    }
 }
+
+/* corazón de flores */
+function createHeartFlowers(){
+    let centerX = window.innerWidth/2;
+    let centerY = window.innerHeight/2 - 50;
+
+    for(let t=0; t<Math.PI*2; t+=0.1){
+        let x = 16*Math.pow(Math.sin(t),3);
+        let y = -(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t));
+
+        let flower=document.createElement("div");
+        flower.className="flower";
+        flower.innerHTML="🌼";
+
+        flower.style.left = (centerX + x*10)+"px";
+        flower.style.top = (centerY + y*10)+"px";
+
+        document.body.appendChild(flower);
+    }
+}
+
 </script>
 
 </body>
