@@ -8,9 +8,8 @@
 body{
     margin:0;
     background:#f5efe6;
-    overflow:hidden;
     font-family:Arial;
-    text-align:center;
+    overflow:hidden;
 }
 
 /* inicio */
@@ -19,81 +18,104 @@ body{
     top:50%;
     left:50%;
     transform:translate(-50%,-50%);
+    text-align:center;
     cursor:pointer;
 }
 
-#start img{
-    width:100px;
+#start span{
+    font-size:60px;
 }
 
 #line{
     border-bottom:2px solid black;
-    width:200px;
-    margin:auto;
+    width:180px;
+    margin:10px auto;
+}
+
+/* contenedor principal */
+#container{
+    display:none;
+    width:100%;
+    height:100vh;
+}
+
+/* texto */
+#text{
+    position:absolute;
+    left:5%;
+    top:20%;
+    width:30%;
+    font-size:22px;
+    line-height:1.6;
 }
 
 /* árbol */
 #tree{
     position:absolute;
     bottom:0;
-    left:50%;
+    left:65%;
     transform:translateX(-50%);
-    width:20px;
+    width:40px;
     height:0;
-    background:#8B5A2B;
+    background:linear-gradient(#8B5A2B, #5a3b1a);
+    border-radius:20px;
     transition:3s;
 }
 
-/* ramas */
+/* ramas suaves */
 .branch{
     position:absolute;
-    width:80px;
-    height:4px;
+    width:120px;
+    height:6px;
     background:#8B5A2B;
+    border-radius:10px;
     transform-origin:left;
 }
 
-/* flores */
+/* flores corazón */
 .flower{
     position:absolute;
-    font-size:18px;
+    font-size:20px;
     opacity:0;
-    animation: appear 1s forwards;
+    animation:fadeIn 1s forwards;
 }
 
-@keyframes appear{
+@keyframes fadeIn{
     to{opacity:1;}
 }
 
-/* mensaje */
-#message{
-    position:absolute;
-    top:20%;
-    width:100%;
-    font-size:28px;
-    opacity:0;
-    transition:2s;
-    padding:20px;
-}
 </style>
 </head>
 
 <body>
 
-<!-- pantalla inicio -->
+<!-- inicio -->
 <div id="start" onclick="start()">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Sunflower_sky_backdrop.jpg/120px-Sunflower_sky_backdrop.jpg">
+    <span>🌻</span>
     <div>Flores Para Ti</div>
     <div id="line"></div>
 </div>
 
-<!-- árbol -->
-<div id="tree"></div>
+<!-- contenido -->
+<div id="container">
 
-<!-- mensaje -->
-<div id="message">
-Que el 20 de Febrero de 2025 me hiciste el chico más feliz del mundo,<br><br>
-Laura eres el amor de mi vida 💛
+    <!-- texto -->
+    <div id="text">
+        Flores amarillas para el amor de mi vida:<br><br>
+
+        Si pudiera elegir un lugar seguro, sería a tu lado.<br><br>
+
+        Cuanto más tiempo estoy contigo más te amo.<br><br>
+
+        — I Love You 💛<br><br>
+
+        Que el 20 de Febrero de 2025 me hiciste el chico más feliz del mundo,<br><br>
+        Laura eres el amor de mi vida.
+    </div>
+
+    <!-- árbol -->
+    <div id="tree"></div>
+
 </div>
 
 <!-- música -->
@@ -103,53 +125,58 @@ Laura eres el amor de mi vida 💛
 
 function start(){
     document.getElementById("start").style.display="none";
+    document.getElementById("container").style.display="block";
 
     let tree = document.getElementById("tree");
 
-    // crecer tronco
-    tree.style.height="200px";
+    /* crecer árbol */
+    tree.style.height="250px";
 
     setTimeout(()=>{
         createBranches();
     },2000);
 
     setTimeout(()=>{
-        createHeartFlowers();
-    },4000);
-
-    setTimeout(()=>{
-        document.getElementById("message").style.opacity=1;
+        createHeart();
         document.getElementById("music").play();
-    },6000);
+    },3500);
 }
 
 /* ramas */
 function createBranches(){
-    for(let i=0;i<6;i++){
+    for(let i=0;i<5;i++){
         let b=document.createElement("div");
         b.className="branch";
-        b.style.left="50%";
-        b.style.bottom=(150 - i*25)+"px";
-        b.style.transform="rotate("+(i%2==0?30:-30)+"deg)";
+
+        b.style.left="65%";
+        b.style.bottom=(200 - i*35)+"px";
+        b.style.transform="rotate("+(i%2==0?25:-25)+"deg)";
+
         document.body.appendChild(b);
     }
 }
 
-/* corazón de flores */
-function createHeartFlowers(){
-    let centerX = window.innerWidth/2;
-    let centerY = window.innerHeight/2 - 50;
+/* corazón relleno */
+function createHeart(){
 
-    for(let t=0; t<Math.PI*2; t+=0.1){
+    let centerX = window.innerWidth * 0.65;
+    let centerY = window.innerHeight * 0.35;
+
+    for(let i=0;i<600;i++){
+
+        let t = Math.random()*Math.PI*2;
+
         let x = 16*Math.pow(Math.sin(t),3);
         let y = -(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t));
+
+        let scale = Math.random()*10;
 
         let flower=document.createElement("div");
         flower.className="flower";
         flower.innerHTML="🌼";
 
-        flower.style.left = (centerX + x*10)+"px";
-        flower.style.top = (centerY + y*10)+"px";
+        flower.style.left = (centerX + x*scale)+"px";
+        flower.style.top = (centerY + y*scale)+"px";
 
         document.body.appendChild(flower);
     }
