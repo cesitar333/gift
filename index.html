@@ -2,54 +2,112 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Para ti ❤️</title>
+<title>Para Laura</title>
 <style>
-body {
-    background: black;
-    color: white;
-    text-align: center;
-    font-family: Arial;
-    overflow: hidden;
+body{
+    margin:0;
+    background:black;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    color:white;
+    font-family:Arial;
+    flex-direction:column;
 }
 
-h1 {
-    margin-top: 20%;
-    font-size: 50px;
+#tree{
+    font-size:20px;
+    line-height:20px;
+    white-space:pre;
+    color:#8B5A2B;
+    margin-bottom:20px;
 }
 
-.heart {
-    position: absolute;
-    color: red;
-    font-size: 20px;
+#message{
+    font-size:35px;
+    opacity:0;
+    transition:2s;
+    text-align:center;
+}
+
+button{
+    padding:15px 30px;
+    font-size:20px;
+    background:yellow;
+    border:none;
+    cursor:pointer;
+    border-radius:10px;
+    margin-top:20px;
+}
+.flower{
+    position:absolute;
+    color:yellow;
+    font-size:20px;
     animation: fall 5s linear infinite;
 }
 
-@keyframes fall {
-    0% { transform: translateY(-100px); }
-    100% { transform: translateY(100vh); }
+@keyframes fall{
+    0%{transform:translateY(-100px);}
+    100%{transform:translateY(100vh);}
 }
 </style>
 </head>
 <body>
 
-<h1>Te quiero ❤️</h1>
-<p>Esta página es solo para ti</p>
+<div id="tree"></div>
+<button onclick="growTree()">Ábreme</button>
+<div id="message">Laura, eres el amor de mi vida 🌼</div>
 
 <script>
-function createHeart() {
-    const heart = document.createElement("div");
-    heart.classList.add("heart");
-    heart.innerHTML = "❤️";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = Math.random() * 3 + 2 + "s";
-    document.body.appendChild(heart);
+let treeStages = [
+`   |
+   |`,
+`   |
+  /|
+   |`,
+`   |
+  /|\\
+   |`,
+`   /\\
+  /  \\
+   ||`,
+`   /\\
+  /**\\
+   ||`
+];
 
-    setTimeout(() => {
-        heart.remove();
-    }, 5000);
+let i = 0;
+
+function growTree(){
+    let interval = setInterval(()=>{
+        if(i < treeStages.length){
+            document.getElementById("tree").innerText = treeStages[i];
+            i++;
+        } else {
+            clearInterval(interval);
+            showFlowers();
+            document.getElementById("message").style.opacity = 1;
+        }
+    },800);
 }
 
-setInterval(createHeart, 300);
+function createFlower(){
+    const flower = document.createElement("div");
+    flower.classList.add("flower");
+    flower.innerHTML = "🌼";
+    flower.style.left = Math.random()*100 + "vw";
+    document.body.appendChild(flower);
+
+    setTimeout(()=>{
+        flower.remove();
+    },5000);
+}
+
+function showFlowers(){
+    setInterval(createFlower,300);
+}
 </script>
 
 </body>
